@@ -13,6 +13,7 @@ namespace ImageGallery.Controllers
     public class HomeController : Controller
     {
         private GalleryContext db = new GalleryContext();
+
         public ActionResult Index(string filter = null, int page = 1, int pageSize = 20)
         {
             var records = new PagedList<Photo>();
@@ -34,7 +35,7 @@ namespace ImageGallery.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView("PartialView",records);
+                return PartialView("_ImagePartial",records);
             }
 
             return View(records);
@@ -94,7 +95,7 @@ namespace ImageGallery.Controllers
         {
             if (!Request.IsAjaxRequest())
             {
-                return Redirect(this.GenerateRedirectUrl(filter, page, pageSize));
+                return Redirect(this.GenerateRedirectUrl(filter, page));
             }
 
             var records = new PagedList<Photo>();
@@ -160,15 +161,15 @@ namespace ImageGallery.Controllers
             return View();
         }
 
-        private int GetPagesCount(int picturesOnPage)
-        {
-            var totalPagesAmount = db.Photos.Count();
-            var filledPagesAmount = totalPagesAmount / picturesOnPage;
+        //private int GetPagesCount(int picturesOnPage)
+        //{
+        //    var totalPagesAmount = db.Photos.Count();
+        //    var filledPagesAmount = totalPagesAmount / picturesOnPage;
 
-            return totalPagesAmount % 2 == 0 ? filledPagesAmount : filledPagesAmount + 1;
-        }
+        //    return totalPagesAmount % 2 == 0 ? filledPagesAmount : filledPagesAmount + 1;
+        //}
 
-        private string GenerateRedirectUrl(string filter, int page, int picturesOnPage)
+        private string GenerateRedirectUrl(string filter, int page)
         {
             if (string.IsNullOrEmpty(filter))
             {

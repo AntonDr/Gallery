@@ -2,31 +2,26 @@
 
 @{
     ViewBag.Title = "Image Gallery";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Image Gallery</h2>
 
-<div class="row">
-    <div class="col-sm-8">
-        <div class="input-group">
-            <input type="text"
-                   name="filter"
-                   value="@ViewBag.filter"
-                   class="form-control"
-                   style="display: inline"
-                   placeholder="Search" />
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">Go</button>
-            </span>
-        </div>
+@using(Ajax.BeginForm("Index",new AjaxOptions{UpdateTargetId = "links"}))
+{
+    <div>
+        @Html.TextBox("filter")
+        <button type="submit">Search</button>        
     </div>
+    
     <div class="pull-right col-lg-1">
-        <a class="btn btn-success" data-modal="" href="/home/create" id="btnCreate">
-            <span class="glyphicon glyphicon-plus"></span>
-        </a>
+    <a class="btn btn-success" data-modal="" href="/home/create" id="btnCreate">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
     </div>
-</div>
+}
+
+    
 
 
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
@@ -57,7 +52,7 @@
                     <button type="button" class="btn btn-primary next">
                         Next
                         <i class="glyphicon glyphicon-chevron-right"></i>
-                    </button>
+                   </button>
                 </div>
             </div>
         </div>
@@ -69,7 +64,7 @@
         @foreach (var item in Model.Content)
         {
             <a href="@item.ImagePath" title="@item.Description" data-gallery>
-                <img src="@item.ThumbPath" alt="@item.Description" class="img-rounded" style="margin-bottom: 7px;" />
+                <img src="@item.ThumbPath" alt="@item.Description" class="img-rounded" style="margin-bottom: 7px;"/>
             </a>
         }
     </div>
@@ -79,29 +74,11 @@
     @for (int i = 1; i <= ((Model.TotalRecords/Model.PageSize) % 2 == 0 ? (Model.TotalRecords / Model.PageSize) : (Model.TotalRecords / Model.PageSize) + 1); i++)
     {
         <div class="btn">
-            @Ajax.ActionLink(i.ToString(), "PartialIndex", new { page = i }, new AjaxOptions { UpdateTargetId = "links" })
+            @Ajax.ActionLink(i.ToString(), "PartialIndex", new { page = i ,filter = ""}, new AjaxOptions { UpdateTargetId = "links" })
         </div>
     }
 </div>
 
-
-@*<div>
-    @{
-        var grid = new WebGrid(
-                    canPage: true,
-                    rowsPerPage: Model.PageSize,
-                    canSort: true,
-                    ajaxUpdateContainerId: "grid");
-
-        grid.Bind(Model.Content, rowCount: Model.TotalRecords, autoSortAndPage: false);
-        grid.Pager(WebGridPagerModes.All);
-
-        @grid.GetHtml(htmlAttributes: new { id = "grid" },
-        fillEmptyRows: false,
-        mode: WebGridPagerModes.All,
-        columns: grid.Columns());
-    }
-</div>*@
 
 @section Scripts
 {
