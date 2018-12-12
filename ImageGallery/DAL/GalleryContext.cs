@@ -12,8 +12,7 @@ namespace ImageGallery.DAL
         public GalleryContext()
             : base("DefaultConnection")
         {
-            Database.SetInitializer<GalleryContext>
-                (new DropCreateDatabaseIfModelChanges<GalleryContext>());
+           
         }
 
         public DbSet<Photo> Photos { get; set; }
