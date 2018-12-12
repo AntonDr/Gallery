@@ -1,8 +1,13 @@
-﻿@model ImageGallery.Models.PagedList<ImageGallery.Models.Photo>
+﻿@using System
+@model ImageGallery.Models.PagedList<ImageGallery.Models.Photo>
 
-        @foreach (var item in Model.Content)
-        {
-            <a href="@item.ImagePath" title="@item.Description" data-gallery>
-                <img src="@item.ThumbPath" alt="@item.Description" class="img-rounded" style="margin-bottom: 7px;" />
-            </a>
+@foreach (var item in Model.Content)
+{
+    <li>
+        @{
+            var base64 = Convert.ToBase64String(item.Data);
+            var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
         }
+        <img src='@imgsrc' />
+    </li>
+}

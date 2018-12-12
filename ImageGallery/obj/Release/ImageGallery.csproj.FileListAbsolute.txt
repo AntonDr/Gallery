@@ -55,3 +55,6 @@ E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\
 E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\ImageGallery.csproj.CopyComplete
 E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\ImageGallery.dll
 E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\ImageGallery.pdb
+E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\ImageGallery.Migrations.InitialCreate.resources
+E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\ImageGallery.csproj.GenerateResource.cache
+E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\ImageGallery.Migrations.updateModel.resources

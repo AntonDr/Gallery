@@ -65,20 +65,22 @@ namespace ImageGallery.Controllers
                 if (file.ContentLength == 0) continue;
 
                 model.Description = photo.Description;
-                var fileName = Guid.NewGuid().ToString();
-                var extension = System.IO.Path.GetExtension(file.FileName).ToLower();
+                model.Data = new byte[file.ContentLength];
+                file.InputStream.Read(model.Data, 0, file.ContentLength);
+                //var fileName = Guid.NewGuid().ToString();
+                //var extension = System.IO.Path.GetExtension(file.FileName).ToLower();
 
-                using (var img = System.Drawing.Image.FromStream(file.InputStream))
-                {
-                    model.ThumbPath = String.Format("/GalleryImages/thumbs/{0}{1}", fileName, extension);
-                    model.ImagePath = String.Format("/GalleryImages/{0}{1}", fileName, extension);
+                //using (var img = System.Drawing.Image.FromStream(file.InputStream))
+                //{
+                //    model.ThumbPath = String.Format("/GalleryImages/thumbs/{0}{1}", fileName, extension);
+                //    model.ImagePath = String.Format("/GalleryImages/{0}{1}", fileName, extension);
 
-                    // Save thumbnail size image, 100 x 100
-                    SaveToFolder(img, fileName, extension, new Size(100, 100), model.ThumbPath);
+                //    // Save thumbnail size image, 100 x 100
+                //    SaveToFolder(img, fileName, extension, new Size(100, 100), model.ThumbPath);
 
-                    // Save large size image, 800 x 800
-                    SaveToFolder(img, fileName, extension, new Size(600, 600), model.ImagePath);
-                }
+                //    // Save large size image, 800 x 800
+                //    SaveToFolder(img, fileName, extension, new Size(600, 600), model.ImagePath);
+                //}
 
                 // Save record to database
                 model.CreatedOn = DateTime.Now;
@@ -135,16 +137,6 @@ namespace ImageGallery.Controllers
                 finalSize = imageSize; // image is already small size
 
             return finalSize;
-        }
-
-        private void SaveToFolder(Image img, string fileName, string extension, Size newSize, string pathToSave)
-        {
-            // Get new resolution
-            Size imgSize = NewImageSize(img.Size, newSize);
-            using (System.Drawing.Image newImg = new Bitmap(img, imgSize.Width, imgSize.Height))
-            {
-                newImg.Save(Server.MapPath(pathToSave), img.RawFormat);
-            }
         }
 
         public ActionResult About()
