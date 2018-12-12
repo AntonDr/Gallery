@@ -188,7 +188,7 @@ namespace ImageGallery.Controllers
             using (System.Drawing.Image newImg = new Bitmap(img, imgSize.Width, imgSize.Height))
             {
                 var imageBlob = cloudBlobContainer.GetBlockBlobReference(pathToSave);
-                imageBlob.UploadFromFile(pathToSave);
+                newImg.Save(imageBlob.Uri.ToString(),img.RawFormat);
             }
         }
 
