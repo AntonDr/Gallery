@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sitemanifest>
-  <IisApp path="E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\Package\PackageTmp" managedRuntimeVersion="v4.0" />
+  <IisApp path="E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\Package\PackageTmp" />
   <setAcl path="E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
   <setAcl path="E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
 </sitemanifest>
