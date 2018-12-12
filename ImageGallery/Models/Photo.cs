@@ -15,7 +15,9 @@ namespace ImageGallery.Models
         [Required]
         public string Description { get; set; }
 
-        public byte[] Data { get; set; }
+        [Display(Name = "Image Path")] public string ImagePath { get; set; }
+
+        [Display(Name = "Thumb Path")] public string ThumbPath { get; set; }
 
 
         [Display(Name = "Created On")] public DateTime CreatedOn { get; set; }

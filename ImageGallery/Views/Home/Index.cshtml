@@ -1,4 +1,5 @@
-﻿@model ImageGallery.Models.PagedList<ImageGallery.Models.Photo>
+﻿@using System
+@model ImageGallery.Models.PagedList<ImageGallery.Models.Photo>
 
 @{
     ViewBag.Title = "Image Gallery";
@@ -64,7 +65,7 @@
         @foreach (var item in Model.Content)
         {
             <a href="@item.ImagePath" title="@item.Description" data-gallery>
-                <img src="@item.ThumbPath" alt="@item.Description" class="img-rounded" style="margin-bottom: 7px;"/>
+                <img src="@item.ThumbPath" alt="@item.Description" class="img-rounded" style="margin-bottom: 7px;" />
             </a>
         }
     </div>
