@@ -106,10 +106,10 @@ namespace ImageGallery.Controllers
                     //blob.DownloadToFile(model.ThumbPath,FileMode.Create);
                     //blob = cloudBlobContainer.GetBlobReference(model.ImagePath);
                     //blob.DownloadToFile(model.ImagePath,FileMode.Create);
-                    var imageBlob = cloudBlobContainer.GetBlockBlobReference(model.ThumbPath);
-                    imageBlob.UploadFromStreamAsync(file.InputStream);
-                    imageBlob = cloudBlobContainer.GetBlockBlobReference(model.ImagePath);
-                    imageBlob.UploadFromStreamAsync(file.InputStream);
+                    //var imageBlob = cloudBlobContainer.GetBlockBlobReference(model.ThumbPath);
+                    //imageBlob.UploadFromStreamAsync(file.InputStream);
+                    //imageBlob = cloudBlobContainer.GetBlockBlobReference(model.ImagePath);
+                    //imageBlob.UploadFromStreamAsync(file.InputStream);
 
                     //CloudBlockBlob blockBlobImage = cloudBlobContainer.GetBlockBlobReference(model.ImagePath);
                     //using (var fileStream = System.IO.File.OpenRead(model.ImagePath))
@@ -121,7 +121,7 @@ namespace ImageGallery.Controllers
                     SaveToFolder(img, fileName, extension, new Size(100, 100), model.ThumbPath);
 
                     // Save large size image, 800 x 800
-                    SaveToFolder(img, fileName, extension, new Size(600, 600), model.ImagePath);
+                    SaveToFolder(img, fileName, extension, new Size(800, 800), model.ImagePath);
                 }
 
                 // Save record to database
@@ -187,7 +187,8 @@ namespace ImageGallery.Controllers
             Size imgSize = NewImageSize(img.Size, newSize);
             using (System.Drawing.Image newImg = new Bitmap(img, imgSize.Width, imgSize.Height))
             {
-                newImg.Save(Server.MapPath(pathToSave), img.RawFormat);
+                var imageBlob = cloudBlobContainer.GetBlockBlobReference(pathToSave);
+                imageBlob.UploadFromFile(pathToSave);
             }
         }
 
