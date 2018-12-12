@@ -186,6 +186,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Gallery\blueimp-gallery.min.js.map" />
     <Content Include="Scripts\Gallery\jquery.blueimp-gallery.min.js.map" />
+    <None Include="Properties\PublishProfiles\web-gallery - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Gallery\blueimp-gallery-fullscreen.js" />
     <Content Include="Scripts\Gallery\blueimp-gallery-indicator.js" />
@@ -266,7 +267,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="GalleryImages\Thumbs\" />
-    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
