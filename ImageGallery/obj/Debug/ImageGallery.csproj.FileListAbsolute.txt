@@ -110,3 +110,4 @@ E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Debug\Im
 E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Debug\ImageGallery.csproj.CopyComplete
 E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Debug\ImageGallery.dll
 E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Debug\ImageGallery.pdb
+E:\EPAM_Summer\NET.S.2018.Drachylouski.Gallery\Gallery\ImageGallery\obj\Debug\ImageGallery.csprojAssemblyReference.cache
