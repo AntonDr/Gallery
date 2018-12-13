@@ -1,15 +1,15 @@
-﻿using System;
+﻿using ImageGallery.DAL;
+using ImageGallery.Models;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ImageGallery.Models;
-using ImageGallery.DAL;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System.Drawing;
-using System.IO;
-using Microsoft.WindowsAzure.Storage.Auth;
 
 namespace ImageGallery.Controllers
 {
@@ -25,7 +25,7 @@ namespace ImageGallery.Controllers
         public HomeController()
         {
             storageCredentials = new StorageCredentials("webgalstr", "IqnwjBAVTXPNc4WSX60L6BXT8XG29mxi2ZzLmIc+i55VHRuus4yp3JXlEam0lfzOAOyLZi1QPRkQP9zk4YZCGg==");
-            cloudStorageAccount = new CloudStorageAccount(storageCredentials,true);
+            cloudStorageAccount = new CloudStorageAccount(storageCredentials, true);
             cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
             cloudBlobContainer = cloudBlobClient.GetContainerReference("imagedata");
 
@@ -53,6 +53,8 @@ namespace ImageGallery.Controllers
                 .Take(pageSize)
                 .ToList();
 
+
+
             // Count
             records.TotalRecords = db.Photos.Count(x => filter == null || (x.Description.Contains(filter)));
 
@@ -78,7 +80,9 @@ namespace ImageGallery.Controllers
         public ActionResult Create(Photo photo, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
+            {
                 return View(photo);
+            }
 
             if (files.Count() == 0 || files.FirstOrDefault() == null)
             {
@@ -90,7 +94,10 @@ namespace ImageGallery.Controllers
 
             foreach (var file in files)
             {
-                if (file.ContentLength == 0) continue;
+                if (file.ContentLength == 0)
+                {
+                    continue;
+                }
 
                 model.Description = photo.Description;
                 var fileName = Guid.NewGuid().ToString();
@@ -98,9 +105,11 @@ namespace ImageGallery.Controllers
 
                 using (var img = System.Drawing.Image.FromStream(file.InputStream))
                 {
-                    model.ThumbPath = String.Format("/GalleryImages/thumbs/{0}{1}", fileName, extension);
+                    model.ThumbPath =
+                        $@"/GalleryImages//thumbs/{fileName}{extension}";
 
-                    model.ImagePath = String.Format("/GalleryImages/{0}{1}", fileName, extension);
+                    model.ImagePath =
+                        $@"/GalleryImages/{fileName}{extension}";
 
                     //CloudBlob blob = cloudBlobContainer.GetBlobReference(model.ThumbPath);
                     //blob.DownloadToFile(model.ThumbPath,FileMode.Create);
@@ -118,10 +127,10 @@ namespace ImageGallery.Controllers
                     //}
 
                     // Save thumbnail size image, 100 x 100
-                    SaveToFolder(img, fileName, extension, new Size(100, 100), model.ThumbPath);
+                    model.ThumbPath = SaveToFolder(img, fileName, extension, new Size(200, 200), model.ThumbPath);
 
                     // Save large size image, 800 x 800
-                    SaveToFolder(img, fileName, extension, new Size(800, 800), model.ImagePath);
+                    model.ImagePath = SaveToFolder(img, fileName, extension, new Size(800, 800), model.ImagePath);
                 }
 
                 // Save record to database
@@ -169,26 +178,39 @@ namespace ImageGallery.Controllers
             if (imageSize.Height > newSize.Height || imageSize.Width > newSize.Width)
             {
                 if (imageSize.Height > imageSize.Width)
+                {
                     tempval = newSize.Height / (imageSize.Height * 1.0);
+                }
                 else
+                {
                     tempval = newSize.Width / (imageSize.Width * 1.0);
+                }
 
-                finalSize = new Size((int) (tempval * imageSize.Width), (int) (tempval * imageSize.Height));
+                finalSize = new Size((int)(tempval * imageSize.Width), (int)(tempval * imageSize.Height));
             }
             else
+            {
                 finalSize = imageSize; // image is already small size
+            }
 
             return finalSize;
         }
 
-        private void SaveToFolder(Image img, string fileName, string extension, Size newSize, string pathToSave)
+        private string SaveToFolder(Image img, string fileName, string extension, Size newSize, string pathToSave)
         {
             // Get new resolution
             Size imgSize = NewImageSize(img.Size, newSize);
             using (System.Drawing.Image newImg = new Bitmap(img, imgSize.Width, imgSize.Height))
             {
                 var imageBlob = cloudBlobContainer.GetBlockBlobReference(pathToSave);
-                newImg.Save(imageBlob.Uri.ToString(),img.RawFormat);
+                imageBlob.Properties.ContentType = "image/jpg";
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    newImg.Save(memoryStream, img.RawFormat);
+                    memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
+                    imageBlob.UploadFromStream(memoryStream);
+                    return imageBlob.Uri.ToString();
+                }
             }
         }
 
